@@ -33,6 +33,10 @@ RUN dotnet publish "${PROJECT_NAME}.csproj" -c Release -o /app/publish /p:UseApp
 # 4. Configurar el contenedor final
 FROM base AS final
 ARG PROJECT_NAME
+# Pasamos el ARG a un ENV para que esté disponible 100% en el runtime
+ENV RUNTIME_PROJECT_NAME=${PROJECT_NAME} 
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["sh", "-c", "dotnet ${PROJECT_NAME}.dll"]
+
+# Usamos la sintaxis de ejecución directa mediante shell para que expanda el ENV correctamente
+ENTRYPOINT dotnet $RUNTIME_PROJECT_NAME.dll
