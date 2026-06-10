@@ -1,0 +1,40 @@
+﻿@model Zarape2.Models.Bebida
+
+<h2>Desactivar Bebida</h2>
+
+<div class="alert alert-warning mt-3">
+    <h4><i class="bi bi-exclamation-triangle"></i> ¿Confirmas que deseas dar de baja este artículo?</h4>
+    <p class="mb-0">La bebida se marcará como no disponible en el menú de los clientes.</p>
+</div>
+
+<div class="card p-4 mt-3" style="max-width: 600px;">
+    <h3><strong>@Model.Nombre</strong></h3>
+    <hr />
+    
+    <p><strong>Id de la Bebida:</strong> @Model.Id</p>
+    <p><strong>Descripción:</strong> @(string.IsNullOrEmpty(Model.Descripcion) ? "Sin descripción" : Model.Descripcion)</p>
+    <p><strong>Precio:</strong> @Model.Precio.ToString("C")</p>
+    <p>
+        <strong>Estado Actual:</strong>
+        @if (Model.Disponible)
+        {
+            <span class="badge bg-success">Disponible</span>
+        }
+        else
+        {
+            <span class="badge bg-secondary">Ya está desactivada</span>
+        }
+    </p>
+</div>
+
+<form asp-action="Delete" class="mt-4">
+    <input asp-for="Id" type="hidden" />
+
+    <button type="submit" class="btn btn-warning">
+        Confirmar Desactivación
+    </button>
+    
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancelar y Volver
+    </a>
+</form>

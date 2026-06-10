@@ -1,0 +1,65 @@
+﻿@model List<Zarape2.Models.Bebida>
+
+<h2>Bebidas en el Menú</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle"></i> Nueva Bebida
+    </a>
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Nombre</td>
+                <td>@item.Descripcion</td>
+                <td>@item.Precio.ToString("C")</td>
+                <td>
+                    @if (item.Disponible)
+                    {
+                        <span class="badge bg-success">Disponible</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Agotada</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">
+                        Ver
+                    </a>
+                    |
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">
+                        Editar
+                    </a>
+                    |
+                    @if (item.Disponible)
+                    {
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">
+                            Desactivar
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-action="Activar" asp-route-id="@item.Id" class="btn btn-sm btn-success">
+                            Activar
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
