@@ -1,0 +1,123 @@
+@model List<Zarape2.Models.Alimento>
+
+@{
+    ViewData["Title"] = "Alimentos";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                Regresar
+            </a>
+        </div>
+        <h2 class="mb-0">Registro de Alimentos</h2>
+        <button type="button"
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#modalAlimento">
+            Nuevo Alimento
+        </button>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            Lista de Alimentos
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th class="text-center">Disponible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var alimento in Model)
+                            {
+                                <tr>
+                                    <td>#@alimento.Id</td>
+                                    <td>@alimento.Nombre</td>
+                                    <td>@alimento.Descripcion</td>
+                                    <td><strong>$@alimento.Precio.ToString("N2")</strong></td>
+                                    <td class="text-center">
+                                        @if (alimento.Disponible)
+                                        {
+                                            <span class="d-inline-block rounded-circle bg-success" style="width: 14px; height: 14px;" title="Disponible"></span>
+                                        }
+                                        else
+                                        {
+                                            <span class="d-inline-block rounded-circle bg-danger" style="width: 14px; height: 14px;" title="No Disponible"></span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    No hay alimentos registrados.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAlimento" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form asp-action="Agregar" method="post">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Alimento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="Nombre" class="form-control" required />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="Descripcion" class="form-control" rows="2" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Precio</label>
+                        <input type="number" name="Precio" class="form-control" step="0.01" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Disponible</label>
+                        <select name="Disponible" class="form-select">
+                            <option value="true">Sí</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar Alimento</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
