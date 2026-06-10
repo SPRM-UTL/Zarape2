@@ -6,26 +6,32 @@ namespace Zarape2.Controllers
 {
     public class ComboController : Controller
     {
-        public static List<Alimento> alimentos = new();
-        public static List<Bebida> bebidas = new();
+        public static List<Alimento> alimentos => AlimentoController.alimentos;
+        public static List<Bebida> bebidas => BebidaController.bebidas;
         public static List<Combo> combos = new();
 
         // GET: ComandaController
         public ActionResult Index()
         {
-            /*
-            ViewBag.Sucursales = SucursalController.sucursales;
-            ViewBag.Usuarios = UsuarioController.usuarios;
-
-            ViewBag.Alimentos = AlimentoController.alimentos;
-            ViewBag.Bebidas = BebidaController.bebidas;
-            ViewBag.Combos = ComboController.combos;
-            */
-
             ViewBag.Alimentos = alimentos;
             ViewBag.Bebidas = bebidas;
-            ViewBag.Combos = combos;
 
+            foreach (var c in combos){
+                Console.WriteLine("Combo: " + c.Nombre);
+                if (c.Alimentos.Count < 1)
+                {
+                    Console.WriteLine("El combo " + c.Id+ " no tiene Alimentos");
+                }
+                else
+                {
+                    Console.WriteLine("No hay Alimentos");
+                }
+                foreach (var a in c.Alimentos)
+                {
+                    Console.WriteLine("Alimento" + a.Alimento.Nombre);
+                }
+                    
+            }
             return View(combos);
         }
 

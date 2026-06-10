@@ -28,7 +28,7 @@ namespace Zarape2.Controllers
             ViewBag.Sucursales = sucursales;
 
             ViewBag.Alimentos = alimentos;
-            ViewBag.Bebidas = bebidas;
+            ViewBag.Bebidas = BebidaController.bebidas;
             ViewBag.Combos = combos;
 
             return View(comandas);
