@@ -12,9 +12,6 @@
 
         public decimal Total { get; set; }
 
-        public int UsuarioId { get; set; }
-        public virtual Usuario Usuario { get; set; }
-
         public int SucursalId { get; set; }
         public virtual Sucursal Sucursal { get; set; }
 
