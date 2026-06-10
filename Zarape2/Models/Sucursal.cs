@@ -9,3 +9,4 @@
         public bool Activa { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }
     }
+}
