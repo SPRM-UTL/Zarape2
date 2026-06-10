@@ -1,5 +1,5 @@
 # Definición del nombre del proyecto
-ARG PROJECT_NAME=zarape2
+ARG PROJECT_NAME=Zarape2
 
 # 1. Capa de ejecución (Runtime)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
