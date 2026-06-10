@@ -1,114 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Zarape2.Models;
 
 namespace Zarape2.Controllers
 {
     public class UsuariosController : Controller
     {
+        private static List<Sucursal> sucursales = new List<Sucursal>()
+        {
+            new Sucursal { Id = 1, Nombre = "Sucursal Centro", Direccion = "Av. Principal 123", Telefono = "1234567", Activa = true },
+            new Sucursal { Id = 2, Nombre = "Sucursal Norte", Direccion = "Blvd. Norte 456", Telefono = "7654321", Activa = true }
+        };
+
         private static List<Usuario> usuarios = new List<Usuario>()
         {
-            new Usuario
-            {
-                Id = 1,
-                Nombre = "Administrador",
-                UsuarioLogin = "admin",
-                Password = "1234",
-                Rol = "Administrador",
-                Activo = true,
-                SucursalId = 1
-            }
+            new Usuario { Id = 1, Nombre = "Administrador", UsuarioLogin = "admin", Password = "1234", Rol = "Administrador", Activo = true, SucursalId = 1, Sucursal = sucursales.First() }
         };
 
         public IActionResult Index()
         {
+            ViewBag.Sucursales = new SelectList(sucursales.Where(s => s.Activa), "Id", "Nombre");
             return View(usuarios);
-        }
-
-        public IActionResult Details(int id)
-        {
-            var usuario = usuarios.FirstOrDefault(x => x.Id == id);
-
-            if (usuario == null)
-                return NotFound();
-
-            return View(usuario);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
         }
 
         [HttpPost]
         public IActionResult Create(Usuario usuario)
         {
-            usuario.Id = usuarios.Max(x => x.Id) + 1;
+            usuario.Id = usuarios.Count > 0 ? usuarios.Max(x => x.Id) + 1 : 1;
             usuario.Activo = true;
-
+            usuario.Sucursal = sucursales.FirstOrDefault(s => s.Id == usuario.SucursalId);
             usuarios.Add(usuario);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Edit(int id)
-        {
-            var usuario = usuarios.FirstOrDefault(x => x.Id == id);
-
-            if (usuario == null)
-                return NotFound();
-
-            return View(usuario);
-        }
-
-        [HttpPost]
-        public IActionResult Edit(Usuario usuario)
-        {
-            var existente = usuarios.FirstOrDefault(x => x.Id == usuario.Id);
-
-            if (existente != null)
-            {
-                existente.Nombre = usuario.Nombre;
-                existente.UsuarioLogin = usuario.UsuarioLogin;
-                existente.Password = usuario.Password;
-                existente.Rol = usuario.Rol;
-                existente.SucursalId = usuario.SucursalId;
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Delete(int id)
-        {
-            var usuario = usuarios.FirstOrDefault(x => x.Id == id);
-
-            if (usuario == null)
-                return NotFound();
-
-            return View(usuario);
-        }
-
-        [HttpPost]
-        public IActionResult Delete(int id, Usuario usuario)
-        {
-            var encontrado = usuarios.FirstOrDefault(x => x.Id == id);
-
-            if (encontrado != null)
-            {
-                encontrado.Activo = false;
-            }
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Activar(int id)
-        {
-            var usuario = usuarios.FirstOrDefault(x => x.Id == id);
-
-            if (usuario != null)
-            {
-                usuario.Activo = true;
-            }
-
             return RedirectToAction(nameof(Index));
         }
     }

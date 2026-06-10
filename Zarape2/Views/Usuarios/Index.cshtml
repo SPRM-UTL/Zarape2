@@ -1,65 +1,109 @@
 ﻿@model List<Zarape2.Models.Usuario>
 
-<h2>Usuarios</h2>
+<div class="container mt-4">
 
-<p>
-    <a asp-action="Create" class="btn btn-success">
-        Nuevo Usuario
-    </a>
-</p>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Regresar</a>
+        </div>
+        <h2 class="mb-0">Gestión de Usuarios</h2>
+        <button type="button" class="btn btn-success"
+                data-bs-toggle="modal" data-bs-target="#modalCreate">
+            Nuevo Usuario
+        </button>
+    </div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Usuario</th>
-            <th>Rol</th>
-            <th>Sucursal</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
+    <div class="card shadow-sm">
+        <div class="card-header">Lista de Usuarios</div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Usuario</th>
+                            <th>Rol</th>
+                            <th>Sucursal</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>#@item.Id</td>
+                                    <td><strong>@item.Nombre</strong></td>
+                                    <td>@item.UsuarioLogin</td>
+                                    <td>@item.Rol</td>
+                                    <td>@(item.Sucursal?.Nombre ?? "Sin Sucursal")</td>
+                                    <td>
+                                        @if (item.Activo)
+                                        {
+                                            <span class="badge bg-success">Activo</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Desactivado</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center">No hay usuarios registrados.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.Id</td>
-                <td>@item.Nombre</td>
-                <td>@item.UsuarioLogin</td>
-                <td>@item.Rol</td>
-                <td>@item.SucursalId</td>
-                <td>
-                    @(item.Activo ? "Activo" : "Desactivado")
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">
-                        Ver
-                    </a>
+</div>
 
-                    |
-
-                    <a asp-action="Edit" asp-route-id="@item.Id">
-                        Editar
-                    </a>
-
-                    |
-
-                    @if (item.Activo)
-                    {
-                        <a asp-action="Delete" asp-route-id="@item.Id">
-                            Desactivar
-                        </a>
-                    }
-                    else
-                    {
-                        <a asp-action="Activar" asp-route-id="@item.Id">
-                            Activar
-                        </a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<!-- Modal Crear -->
+<div class="modal fade" id="modalCreate" tabindex="-1">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <form asp-action="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nuevo Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input name="Nombre" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Usuario</label>
+                        <input name="UsuarioLogin" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña</label>
+                        <input name="Password" type="password" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+                        <input name="Rol" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Sucursal</label>
+                        <select name="SucursalId" asp-items="ViewBag.Sucursales" class="form-select" required>
+                            <option value="">Seleccione...</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
