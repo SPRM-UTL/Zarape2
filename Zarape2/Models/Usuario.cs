@@ -10,11 +10,10 @@
 
         public string Password { get; set; }
 
-        public string Rol { get; set; } // Administrador, Mesero, Cajero
+        public string Rol { get; set; }
 
         public bool Activo { get; set; }
 
         public int SucursalId { get; set; }
-        public virtual Sucursal Sucursal { get; set; }
     }
 }
