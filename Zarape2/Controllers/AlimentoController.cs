@@ -30,8 +30,6 @@ namespace Zarape2.Controllers
 
             alimentos.Add(nuevoAlimento);
 
-            ComandaController.alimentos.Add(nuevoAlimento);
-
             return RedirectToAction(nameof(Index));
         }
     }

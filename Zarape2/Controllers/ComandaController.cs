@@ -8,26 +8,22 @@ namespace Zarape2.Controllers
     public class ComandaController : Controller
     {
         public static List<Comanda> comandas = new();
-        public static List<Sucursal> sucursales = new();
-        public static List<Alimento> alimentos = new();
-        public static List<Bebida> bebidas = new();
-        public static List<Combo> combos = new();
 
-        // GET: ComandaController
+        public static List<Sucursal> sucursales => SucursalesController.sucursales;
+        public static List<Alimento> alimentos => AlimentoController.alimentos;
+        public static List<Bebida> bebidas => BebidaController.bebidas;
+        public static List<Combo> combos => ComboController.combos;
+
         public ActionResult Index()
         {
-
-            //ViewBag.Sucursales = SucursalController.sucursales;
             ViewBag.Sucursales = sucursales;
-            ViewBag.Alimentos = AlimentoController.alimentos;
-            ViewBag.Bebidas = BebidaController.bebidas;
-            ViewBag.Combos = ComboController.combos;
-            ViewBag.Bebidas = BebidaController.bebidas;
-            
+            ViewBag.Alimentos = alimentos;
+            ViewBag.Bebidas = bebidas;
+            ViewBag.Combos = combos;
+
             return View(comandas);
         }
 
-        [HttpPost]
         [HttpPost]
         public IActionResult Agregar(
             int Mesa,
@@ -35,7 +31,6 @@ namespace Zarape2.Controllers
             string Estado,
             List<ComandaDetalle> Detalles)
         {
-
             var sucursal = sucursales
                 .FirstOrDefault(x => x.Id == SucursalId);
 
@@ -50,7 +45,6 @@ namespace Zarape2.Controllers
                     switch (detalle.TipoProducto)
                     {
                         case "Alimento":
-
                             var alimento = alimentos
                                 .FirstOrDefault(x => x.Id == detalle.ProductoId);
 
@@ -59,11 +53,9 @@ namespace Zarape2.Controllers
                                 detalle.Descripcion = alimento.Nombre;
                                 detalle.PrecioUnitario = alimento.Precio;
                             }
-
                             break;
 
                         case "Bebida":
-
                             var bebida = bebidas
                                 .FirstOrDefault(x => x.Id == detalle.ProductoId);
 
@@ -72,11 +64,9 @@ namespace Zarape2.Controllers
                                 detalle.Descripcion = bebida.Nombre;
                                 detalle.PrecioUnitario = bebida.Precio;
                             }
-
                             break;
 
                         case "Combo":
-
                             var combo = combos
                                 .FirstOrDefault(x => x.Id == detalle.ProductoId);
 
@@ -85,21 +75,17 @@ namespace Zarape2.Controllers
                                 detalle.Descripcion = combo.Nombre;
                                 detalle.PrecioUnitario = combo.Precio;
                             }
-
                             break;
                     }
 
-                    detalle.Importe =
-                        detalle.Cantidad *
-                        detalle.PrecioUnitario;
-
+                    detalle.Importe = detalle.Cantidad * detalle.PrecioUnitario;
                     total += detalle.Importe;
                 }
             }
 
             var nuevaComanda = new Comanda
             {
-                Id = comandas.Count + 1,
+                Id = comandas.Count > 0 ? comandas.Max(c => c.Id) + 1 : 1,
                 Fecha = DateTime.Now,
                 Mesa = Mesa,
                 Estado = Estado,
@@ -120,19 +106,10 @@ namespace Zarape2.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: ComandaController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+        public ActionResult Details(int id) => View();
 
-        // GET: ComandaController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public ActionResult Create() => View();
 
-        // POST: ComandaController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -147,13 +124,8 @@ namespace Zarape2.Controllers
             }
         }
 
-        // GET: ComandaController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        public ActionResult Edit(int id) => View();
 
-        // POST: ComandaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -168,13 +140,8 @@ namespace Zarape2.Controllers
             }
         }
 
-        // GET: ComandaController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        public ActionResult Delete(int id) => View();
 
-        // POST: ComandaController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

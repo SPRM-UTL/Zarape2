@@ -1,8 +1,61 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="dashboard-hero">
+    <div class="dashboard-hero-content">
+        <h1>Bienvenido a Zarape2</h1>
+        <p>Gestiona comandas, menú y operaciones de tu restaurante desde un solo lugar.</p>
+    </div>
+</div>
+
+<div class="row g-3 g-lg-4">
+    <div class="col-sm-6 col-xl-4">
+        <a asp-controller="Comanda" asp-action="Index" class="nav-card">
+            <span class="nav-card-icon orange"><i class="bi bi-receipt-cutoff"></i></span>
+            <h3 class="nav-card-title">Comandas</h3>
+            <p class="nav-card-desc">Registra y administra las órdenes del restaurante.</p>
+            <span class="nav-card-arrow">Ir al módulo <i class="bi bi-arrow-right"></i></span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-4">
+        <a asp-controller="Alimento" asp-action="Index" class="nav-card">
+            <span class="nav-card-icon green"><i class="bi bi-egg-fried"></i></span>
+            <h3 class="nav-card-title">Alimentos</h3>
+            <p class="nav-card-desc">Administra el catálogo de platillos y precios.</p>
+            <span class="nav-card-arrow">Ir al módulo <i class="bi bi-arrow-right"></i></span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-4">
+        <a asp-controller="Bebida" asp-action="Index" class="nav-card">
+            <span class="nav-card-icon blue"><i class="bi bi-cup-hot-fill"></i></span>
+            <h3 class="nav-card-title">Bebidas</h3>
+            <p class="nav-card-desc">Controla bebidas, disponibilidad y existencias.</p>
+            <span class="nav-card-arrow">Ir al módulo <i class="bi bi-arrow-right"></i></span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-4">
+        <a asp-controller="Combo" asp-action="Index" class="nav-card">
+            <span class="nav-card-icon purple"><i class="bi bi-box2-heart-fill"></i></span>
+            <h3 class="nav-card-title">Combos</h3>
+            <p class="nav-card-desc">Crea paquetes y promociones especiales.</p>
+            <span class="nav-card-arrow">Ir al módulo <i class="bi bi-arrow-right"></i></span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-4">
+        <a asp-controller="Usuarios" asp-action="Index" class="nav-card">
+            <span class="nav-card-icon pink"><i class="bi bi-people-fill"></i></span>
+            <h3 class="nav-card-title">Usuarios</h3>
+            <p class="nav-card-desc">Gestiona el personal y accesos del sistema.</p>
+            <span class="nav-card-arrow">Ir al módulo <i class="bi bi-arrow-right"></i></span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-4">
+        <a asp-controller="Sucursales" asp-action="Index" class="nav-card">
+            <span class="nav-card-icon teal"><i class="bi bi-geo-alt-fill"></i></span>
+            <h3 class="nav-card-title">Sucursales</h3>
+            <p class="nav-card-desc">Administra ubicaciones y datos de cada sucursal.</p>
+            <span class="nav-card-arrow">Ir al módulo <i class="bi bi-arrow-right"></i></span>
+        </a>
+    </div>
 </div>
