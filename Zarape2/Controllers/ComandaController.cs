@@ -16,21 +16,14 @@ namespace Zarape2.Controllers
         // GET: ComandaController
         public ActionResult Index()
         {
-            /*
-            ViewBag.Sucursales = SucursalController.sucursales;
-            ViewBag.Usuarios = UsuarioController.usuarios;
 
+            //ViewBag.Sucursales = SucursalController.sucursales;
+            ViewBag.Sucursales = sucursales;
             ViewBag.Alimentos = AlimentoController.alimentos;
             ViewBag.Bebidas = BebidaController.bebidas;
             ViewBag.Combos = ComboController.combos;
-            */
-
-            ViewBag.Sucursales = sucursales;
-
-            ViewBag.Alimentos = alimentos;
-            ViewBag.Bebidas = bebidas;
-            ViewBag.Combos = combos;
-
+            ViewBag.Bebidas = BebidaController.bebidas;
+            
             return View(comandas);
         }
 

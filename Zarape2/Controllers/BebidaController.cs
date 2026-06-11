@@ -6,7 +6,7 @@ namespace Zarape2.Controllers
 {
     public class BebidaController : Controller
     {
-        private static List<Bebida> bebidas = new List<Bebida>();
+        public static List<Bebida> bebidas = new();
 
         // GET: BebidaController
         public ActionResult Index()

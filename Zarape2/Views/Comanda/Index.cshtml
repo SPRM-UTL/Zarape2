@@ -403,6 +403,7 @@
     const bebidas = [
         @foreach (var item in ViewBag.Bebidas)
         {
+            Console.WriteLine(@item.Id);
                 @: { id:@item.Id, nombre:"@item.Nombre", precio:@item.Precio },
         }
     ];
