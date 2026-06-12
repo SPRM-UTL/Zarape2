@@ -34,28 +34,17 @@ namespace Zarape2.Controllers
 
         // POST: BebidaController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(Bebida bebida)
+        public IActionResult Agregar(Bebida bebida)
         {
-            if (!ModelState.IsValid)
+            if (bebida == null)
             {
-                return View(bebida);
-            }
-            
-            try
-            {
-                if (bebida == null)
-                {
-                    return NotFound("No se creo de manera correcta");
-                }
-                bebida.Disponible = true;
-                bebidas.Add(bebida);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+
+            bebida.Id = bebidas.Count + 1;
+            bebidas.Add(bebida);
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: BebidaController/Edit/5

@@ -1,45 +1,166 @@
-﻿@model Zarape2.Models.Bebida
+﻿@model List<Zarape2.Models.Bebida>
 
-<h2>Agregar Nueva Bebida</h2>
-<hr />
+@{
+    ViewData["Title"] = "Bebidas";
+}
 
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="container mt-4">
 
-            <div class="mb-3">
-                <label asp-for="Nombre" class="form-label">Nombre de la Bebida</label>
-                <input asp-for="Nombre" class="form-control" placeholder="Ej. Horchata Grande" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">
+                Regresar
+            </a>
+        </div>
 
-            <div class="mb-3">
-                <label asp-for="Descripcion" class="form-label">Descripción</label>
-                <textarea asp-for="Descripcion" class="form-control" rows="3" placeholder="Ej. Agua fresca de arroz con canela y leche..."></textarea>
-                <span asp-validation-for="Descripcion" class="text-danger"></span>
-            </div>
+        <h2 class="mb-0">Registro de Bebidas</h2>
 
-            <div class="mb-3">
-                <label asp-for="Precio" class="form-label">Precio ($)</label>
-                <input asp-for="Precio" type="number" step="0.01" class="form-control" placeholder="0.00" />
-                <span asp-validation-for="Precio" class="text-danger"></span>
-            </div>
-
-            <div class="mt-4">
-                <button type="submit" class="btn btn-success">
-                    Guardar Bebida
-                </button>
-                <a asp-action="Index" class="btn btn-secondary">
-                    Cancelar
-                </a>
-            </div>
-        </form>
+        <button type="button"
+                class="btn btn-success"
+                data-bs-toggle="modal"
+                data-bs-target="#modalBebida">
+            Nueva Bebida
+        </button>
     </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header">
+            Lista de Bebidas
+        </div>
+
+        <div class="card-body">
+            <div class="table-responsive">
+
+                <table class="table table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th class="text-center">Disponible</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var bebida in Model)
+                            {
+                                <tr>
+                                    <td>#@bebida.Id</td>
+                                    <td>@bebida.Nombre</td>
+                                    <td>@bebida.Descripcion</td>
+                                    <td>
+                                        <strong>
+                                            $@bebida.Precio.ToString("N2")
+                                        </strong>
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if (bebida.Disponible)
+                                        {
+                                            <span class="d-inline-block rounded-circle bg-success"
+                                                  style="width:14px;height:14px;"
+                                                  title="Disponible">
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="d-inline-block rounded-circle bg-danger"
+                                                  style="width:14px;height:14px;"
+                                                  title="No Disponible">
+                                            </span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    No hay bebidas registradas.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
+<!-- Modal -->
+<div class="modal fade" id="modalBebida" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <form asp-action="Agregar" method="post">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Nueva Bebida</h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label class="form-label">Nombre</label>
+                        <input type="text"
+                               name="Nombre"
+                               class="form-control"
+                               required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="Descripcion"
+                                  class="form-control"
+                                  rows="2"
+                                  required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Precio</label>
+                        <input type="number"
+                               name="Precio"
+                               class="form-control"
+                               step="0.01"
+                               required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Disponible</label>
+                        <select name="Disponible" class="form-select">
+                            <option value="true">Sí</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit"
+                            class="btn btn-success">
+                        Guardar Bebida
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
